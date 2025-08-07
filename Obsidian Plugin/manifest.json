@@ -1,0 +1,11 @@
+{
+	"id": "Obblogdian",
+	"name": "Obblogdian",
+	"version": "1.0.1",
+	"minAppVersion": "0.15.0",
+	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"author": "Darklight",
+	"authorUrl": "",
+	"fundingUrl": "",
+	"isDesktopOnly": false
+}
