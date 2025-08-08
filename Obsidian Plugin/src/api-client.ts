@@ -10,7 +10,7 @@ export interface ApiResponse {
 }
 
 export class ApiClient {
-    constructor(private settings: MyPluginSettings) {}
+    constructor(private readonly settings: MyPluginSettings) {}
 
     async sync(): Promise<void> {
         return new Promise<void>((resolve, reject) => {

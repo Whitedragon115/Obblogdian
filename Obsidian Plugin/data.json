@@ -1,0 +1,9 @@
+{
+  "apiToken": "5V54ZFdqD0yAIE4DEH61xchPy5TsrdVyMLw1xJuwI82DfCxycUIVLexuFr1w6u1E",
+  "apiLink": "http://192.168.200.11:10008",
+  "blogFolder": "Blog Ground",
+  "autoUpdate": true,
+  "autoSync": true,
+  "writeArea": "",
+  "previewArea": ""
+}
