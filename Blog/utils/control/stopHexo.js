@@ -7,6 +7,8 @@ async function stopHexoServer() {
     const pid = hexoInstance.serverProcess.pid;
     const platform = process.platform;
 
+    console.log(pid)
+
     switch (platform) {
         case 'win32':
             win32Taskkill(pid);
@@ -35,10 +37,41 @@ function win32Taskkill(pid) {
 }
 
 function linuxKill(pid) {
-    const { spawn: spawnKiller } = require('child_process');
-    const killer = spawnKiller('kill', ['-9', String(pid)], { shell: true });
-
-    killer.on('close', (code) => { console.log(`Kill exited with code ${code} for PID ${pid}`) });
+    const { exec } = require('child_process');
+    
+    console.log(`Finding and killing processes using port 4001`);
+    
+    // Get the pid=XXX format from ss command
+    exec(`ss -tlnp | grep :4001 | grep -o 'pid=[0-9]*'`, (error, stdout, stderr) => {
+        if (error) {
+            console.log(`Failed to find processes on port 4001: ${error.message}`);
+        } else if (stdout.trim()) {
+            // stdout will contain lines like "pid=59"
+            const pidLines = stdout.trim().split('\n');
+            console.log(`Found processes on port 4001: ${pidLines.join(', ')}`);
+            
+            pidLines.forEach(pidLine => {
+                // Extract just the number from "pid=59"
+                const processId = pidLine.split('=')[1];
+                if (processId) {
+                    exec(`kill -KILL ${processId}`, (killError) => {
+                        if (killError) {
+                            console.log(`Failed to kill PID ${processId}: ${killError.message}`);
+                        } else {
+                            console.log(`Successfully killed PID ${processId}`);
+                        }
+                    });
+                }
+            });
+        } else {
+            console.log(`No processes found using port 4001`);
+        }
+        
+        // Also kill the original PID as cleanup
+        exec(`kill -KILL ${pid} 2>/dev/null`, (originalError) => {
+            console.log(originalError ? `Original PID ${pid} cleanup had issues` : `Original PID ${pid} cleaned up`);
+        });
+    });
 }
 
 function userPlatformKill(pid) {

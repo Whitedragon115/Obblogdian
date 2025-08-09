@@ -1,4 +1,4 @@
-import { Setting, Notice } from "obsidian";
+import { Setting, Notice, requestUrl } from "obsidian";
 import { BaseSetting } from "./base-setting";
 
 export class ApiSettings extends BaseSetting {
@@ -66,7 +66,8 @@ export class ApiSettings extends BaseSetting {
         }
 
         try {
-            const response = await fetch(`${this.plugin.settings.apiLink}/api/ping`, {
+            const response = await requestUrl({
+                url: `${this.plugin.settings.apiLink}/api/ping`,
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -77,15 +78,11 @@ export class ApiSettings extends BaseSetting {
                 })
             });
 
-            if (response.ok) {
-                const data = await response.json();
-                if (data.status === "success") {
-                    new Notice('API connection successful!', 3000);
-                } else {
-                    new Notice('API connection failed: Invalid response', 5000);
-                }
+            console.log('API ping response:', response.json);
+            if (response.json && response.json.status === "success") {
+                new Notice('API connection successful!', 3000);
             } else {
-                new Notice(`API connection failed: ${response.status} ${response.statusText}`, 5000);
+                new Notice('API connection failed: Invalid response', 5000);
             }
         } catch (error) {
             console.error('API connection test failed:', error);
