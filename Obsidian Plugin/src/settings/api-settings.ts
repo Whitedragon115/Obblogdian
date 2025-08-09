@@ -79,7 +79,7 @@ export class ApiSettings extends BaseSetting {
 
             if (response.ok) {
                 const data = await response.json();
-                if (data.success === true) {
+                if (data.status === "success") {
                     new Notice('API connection successful!', 3000);
                 } else {
                     new Notice('API connection failed: Invalid response', 5000);

@@ -17,7 +17,7 @@ export class ApiClient {
             new Notice("Syncing, Please wait...");
 
             const option = {
-                url: `${this.settings.apiLink}/sync`,
+                url: `${this.settings.apiLink}/api/sync`,
                 headers: {
                     "Authorization": `Bearer ${this.settings.apiToken}`
                 }
@@ -56,7 +56,7 @@ export class ApiClient {
             new Notice("Starting, Please wait...");
 
             const option = {
-                url: `${this.settings.apiLink}/server/start`,
+                url: `${this.settings.apiLink}/api/server/start`,
                 headers: {
                     "Authorization": `Bearer ${this.settings.apiToken}`
                 }
@@ -94,7 +94,7 @@ export class ApiClient {
     async stopServer(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             const option = {
-                url: `${this.settings.apiLink}/server/close`,
+                url: `${this.settings.apiLink}/api/server/stop`,
                 headers: {
                     "Authorization": `Bearer ${this.settings.apiToken}`
                 }
@@ -133,7 +133,7 @@ export class ApiClient {
             new Notice("Deploying, Please wait...");
 
             const option = {
-                url: `${this.settings.apiLink}/deploy`,
+                url: `${this.settings.apiLink}/api/deploy`,
                 headers: {
                     "Authorization": `Bearer ${this.settings.apiToken}`
                 },
@@ -176,7 +176,7 @@ export class ApiClient {
 
     async quickSync(): Promise<void> {
         const option = {
-            url: `${this.settings.apiLink}/sync`,
+            url: `${this.settings.apiLink}/api/sync`,
             headers: {
                 "Authorization": `Bearer ${this.settings.apiToken}`
             }
