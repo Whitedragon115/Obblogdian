@@ -114,3 +114,6 @@ db.json
 # Build outputs
 main.js
 *.js.map
+
+# Hexo source directory
+!/Blog/hexo/*.md
