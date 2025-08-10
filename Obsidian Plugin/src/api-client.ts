@@ -14,6 +14,7 @@ export class ApiClient {
 
     async sync(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
+            
             new Notice("Syncing, Please wait...");
 
             const option = {

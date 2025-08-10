@@ -46,40 +46,31 @@ export class RenderCommands extends BaseCommand {
         }
 
         const activeFile = this.plugin.app.workspace.getActiveFile();
-        if (activeFile && !activeFile.path.startsWith(this.settings.blogFolder)) {
-            new Notice("This command only works in the blog folder");
-            return;
-        }
 
-        if (!activeFile || !activeFile.path.endsWith(".md")) {
-            new Notice("No active Markdown file to render");
-            return;
-        }
+        if (activeFile && !activeFile.path.startsWith(this.settings.blogFolder)) return new Notice("This command only works in the blog folder");
+        if (!activeFile?.path.endsWith(".md")) return new Notice("No active Markdown file to render");
 
         await this.markdownRenderer.renderMarkdown(activeFile.path, this.plugin.app.vault.adapter);
-        new Notice(`Rendered ${activeFile.name}`);
+        return new Notice(`Rendered ${activeFile.name}`);
+
     }
 
     private async renderAllBlog() {
         const files = this.plugin.app.vault.getMarkdownFiles();
-        for (const file of files) {
-            await this.markdownRenderer.renderMarkdown(file.path, this.plugin.app.vault.adapter);
-        }
-        new Notice("All Markdown files have been rendered");
+        for (const file of files) await this.markdownRenderer.renderMarkdown(file.path, this.plugin.app.vault.adapter);
+        return new Notice("All Markdown files have been rendered");
     }
 
     private async toggleAutoUpdate() {
         this.settings.autoUpdate = !this.settings.autoUpdate;
         await this.saveSettings();
-        new Notice(`Auto Update is ${this.settings.autoUpdate ? "enabled" : "disabled"}`);
+        return new Notice(`Auto Update is ${this.settings.autoUpdate ? "enabled" : "disabled"}`);
     }
 
     private async cleanTempFiles() {
-        
         const tempFolder = this.settings.blogFolder + "/~temp";
         const tempFiles = this.plugin.app.vault.getFiles().filter(file => file.path.startsWith(tempFolder));
         for (const file of tempFiles) await this.plugin.app.vault.trash(file, true);
-        new Notice("Temporary files cleaned up");
-
+        return new Notice("Temporary files cleaned up");
     }
 }

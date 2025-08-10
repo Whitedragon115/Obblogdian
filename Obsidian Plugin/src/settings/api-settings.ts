@@ -1,9 +1,10 @@
 import { Setting, Notice, requestUrl } from "obsidian";
 import { BaseSetting } from "./base-setting";
+import internal from "stream";
 
 export class ApiSettings extends BaseSetting {
     render(containerEl: HTMLElement): void {
-        // API Token 設定
+        
         new Setting(containerEl)
             .setName('API Token')
             .setDesc('Enter your API token for blog synchronization')
@@ -18,7 +19,6 @@ export class ApiSettings extends BaseSetting {
                 setting.controlEl.querySelector('input')?.setAttribute('type', 'password');
             });
 
-        // API Link 設定
         new Setting(containerEl)
             .setName('API Link')
             .setDesc('Enter your API base URL')
@@ -41,7 +41,6 @@ export class ApiSettings extends BaseSetting {
                     this.markUnsavedChanges();
                 }));
 
-        // API 連線測試
         new Setting(containerEl)
             .setName('Test API Connection')
             .setDesc('Test your API connection (settings must be saved first)')
@@ -52,18 +51,11 @@ export class ApiSettings extends BaseSetting {
                 }));
     }
 
-    private async pingtest(): Promise<void> {
-        // Check if there are unsaved changes
-        if (this.hasUnsavedChanges) {
-            new Notice('Please save your settings before testing the API connection.', 5000);
-            return;
-        }
+    private async pingtest(): Promise<Notice | void> {
 
-        // Check if required settings are provided
-        if (!this.plugin.settings.apiLink || !this.plugin.settings.apiToken) {
-            new Notice('Please configure API Link and API Token before testing connection.', 5000);
-            return;
-        }
+        if (this.hasUnsavedChanges) return new Notice('Please save your settings before testing the API connection.', 5000);
+        if (!this.plugin.settings.apiLink || !this.plugin.settings.apiToken) return new Notice('Please configure API Link and API Token before testing connection.', 5000);
+
 
         try {
             const response = await requestUrl({
@@ -86,7 +78,7 @@ export class ApiSettings extends BaseSetting {
             }
         } catch (error) {
             console.error('API connection test failed:', error);
-            new Notice('API connection failed: Network error or invalid URL', 5000);
+            return new Notice('API connection failed: Network error or invalid URL', 5000);
         }
     }
 }

@@ -8,8 +8,8 @@ let split_filename = "";
 export class ViewCommands extends BaseCommand {
     registerCommands() {
         this.plugin.addCommand({
-            id: "view-blog-obsidian",
-            name: "View Blog in here",
+            id: "Preview-Blog",
+            name: "Preview Blog",
             callback: async () => {
                 await this.viewBlogInObsidian();
             }
@@ -25,17 +25,19 @@ export class ViewCommands extends BaseCommand {
         if (openMdFile.path.includes("~temp")) return new Notice("You can't use this command in the preview folder");
 
         await this.markdownRenderer.renderMarkdown(openMdFile.path, this.plugin.app.vault.adapter);
-
+        
         setTabs();
         setHidden();
-
+        
         const previewFilePath = path.join(this.settings.blogFolder, "~temp", `Preview ${openMdFile.name}`).replace(/\\/g, '/');
+        await this.handleEditorChange(true, false);
         let file = this.plugin.app.vault.getAbstractFileByPath(previewFilePath) as TFile;
-
-        if (this.settings.autoUpdate && !file) {
-            await this.handleEditorChange(true, false);
+        
+        if(!file){
             this.viewBlogInObsidian();
+            return;
         }
+
         if (!file) return new Notice("Preview file not found");
         if (file.basename === split_filename) return;
 
@@ -44,10 +46,7 @@ export class ViewCommands extends BaseCommand {
         const leaves = this.plugin.app.workspace.getLeavesOfType('markdown');
         const currentActiveLeaf = this.plugin.app.workspace.getMostRecentLeaf();
 
-        for (const leaf of leaves) {
-            if (leaf !== currentActiveLeaf) leaf.detach();
-        }
-
+        for (const leaf of leaves) if (leaf !== currentActiveLeaf) leaf.detach();
         if (currentActiveLeaf) await currentActiveLeaf.openFile(openMdFile, { state: { mode: 'source' } });
         const newLeaf = this.plugin.app.workspace.getLeaf('split', 'vertical');
         await newLeaf.openFile(file, { state: { mode: 'preview', active: false, focus: false } });

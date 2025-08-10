@@ -5,12 +5,12 @@ import { ControlSettings } from "./control-settings";
 import { InfoSettings } from "./info-settings";
 
 export class SettingsManager {
-    private apiSettings: ApiSettings;
-    private pathSettings: PathSettings;
-    private automationSettings: AutomationSettings;
-    private controlSettings: ControlSettings;
-    private infoSettings: InfoSettings;
-    private hasUnsavedChangesRef: { value: boolean };
+    private readonly apiSettings: ApiSettings;
+    private readonly pathSettings: PathSettings;
+    private readonly automationSettings: AutomationSettings;
+    private readonly controlSettings: ControlSettings;
+    private readonly infoSettings: InfoSettings;
+    private readonly hasUnsavedChangesRef: { value: boolean };
 
     constructor(
         app: any,
@@ -42,7 +42,6 @@ export class SettingsManager {
 
     updateHasUnsavedChanges(value: boolean): void {
         this.hasUnsavedChangesRef.value = value;
-        // Update all settings components
         this.apiSettings.setHasUnsavedChanges(value);
         this.pathSettings.setHasUnsavedChanges(value);
         this.automationSettings.setHasUnsavedChanges(value);

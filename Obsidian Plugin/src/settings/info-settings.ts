@@ -2,10 +2,9 @@ import { BaseSetting } from "./base-setting";
 
 export class InfoSettings extends BaseSetting {
     render(containerEl: HTMLElement): void {
-        // 添加分隔線
+        
         containerEl.createEl('hr');
 
-        // 版本資訊
         const versionInfo = containerEl.createEl('div');
         versionInfo.style.marginTop = '20px';
         versionInfo.style.padding = '10px';

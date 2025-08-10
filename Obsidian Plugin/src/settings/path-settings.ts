@@ -3,7 +3,7 @@ import { BaseSetting } from "./base-setting";
 
 export class PathSettings extends BaseSetting {
     render(containerEl: HTMLElement): void {
-        // Blogging Area Path setting
+        
         new Setting(containerEl)
             .setName('Blogging Area')
             .setDesc('Enter the name of your blogging area')

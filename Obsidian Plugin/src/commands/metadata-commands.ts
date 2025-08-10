@@ -14,10 +14,7 @@ export class MetadataCommands extends BaseCommand {
 
     private async createMetadata() {
         const openMdFile = this.plugin.app.workspace.getActiveFile();
-        if (!openMdFile) {
-            new Notice("No active file open");
-            return;
-        }
+        if (!openMdFile) return new Notice("No active file open");
 
         // format 2024-09-26 19:55:11
         const nowTime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
@@ -35,6 +32,6 @@ export class MetadataCommands extends BaseCommand {
         const metaContent = metaLines.join("\n");
         const content = await this.plugin.app.vault.read(openMdFile);
         await this.plugin.app.vault.modify(openMdFile, metaContent.trim() + "\n" + content);
-        new Notice("Meta Data created successfully");
+        return new Notice("Meta Data created successfully");
     }
 }

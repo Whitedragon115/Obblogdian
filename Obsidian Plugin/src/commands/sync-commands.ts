@@ -5,15 +5,15 @@ export class SyncCommands extends BaseCommand {
     registerCommands() {
         this.plugin.addCommand({
             id: "sync-blog",
-            name: "Sync Blog",
+            name: "Sync blog to server",
             callback: async () => {
                 await this.syncBlog();
             }
         });
 
         this.plugin.addCommand({
-            id: "sync-auto-update",
-            name: "Auto Sync Markdown to Server",
+            id: "toogle-auto-sync",
+            name: "Auto sync blog to Server",
             callback: async () => {
                 await this.toggleAutoSync();
             }
@@ -31,6 +31,6 @@ export class SyncCommands extends BaseCommand {
     private async toggleAutoSync() {
         this.settings.autoSync = !this.settings.autoSync;
         await this.saveSettings();
-        new Notice(`Auto Sync is ${this.settings.autoSync ? "enabled" : "disabled"}`);
+        return new Notice(`Auto Sync is ${this.settings.autoSync ? "enabled" : "disabled"}`);
     }
 }

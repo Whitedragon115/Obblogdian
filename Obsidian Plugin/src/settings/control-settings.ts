@@ -13,17 +13,15 @@ export class ControlSettings extends BaseSetting {
     }
 
     render(containerEl: HTMLElement): void {
-        // 添加分隔線
+
         containerEl.createEl('hr');
 
-        // 保存按鈕區域
         const buttonContainer = containerEl.createEl('div');
         buttonContainer.style.display = 'flex';
         buttonContainer.style.gap = '10px';
         buttonContainer.style.justifyContent = 'center';
         buttonContainer.style.marginBottom = '20px';
 
-        // Save Settings Button
         new Setting(buttonContainer)
             .addButton(button => button
                 .setButtonText('Save Settings')
@@ -39,9 +37,9 @@ export class ControlSettings extends BaseSetting {
                 }));
     }
 
-    private async saveAllSettings(): Promise<void> {
+    private async saveAllSettings(): Promise<Notice | void> {
         try {
-            // Validate blog folder and create if necessary
+
             if (this.tempSettings.blogFolder) {
                 const vault = this.app.vault;
                 const folderExists = vault.getAbstractFileByPath(this.tempSettings.blogFolder);
@@ -50,41 +48,34 @@ export class ControlSettings extends BaseSetting {
                 }
             }
 
-            // Copy temporary settings to actual settings
             this.plugin.settings = { ...this.tempSettings };
-            
-            // Save to disk
-            await this.plugin.saveSettings();
-            
+            await this.plugin.saveSettings();            
             this.setHasUnsavedChanges(false);
             new Notice('Settings saved successfully!', 3000);
-            
-            // Notify parent to update hasUnsavedChanges
             this.onSettingsSaved();
+
         } catch (error) {
             console.error('Failed to save settings:', error);
-            new Notice('Failed to save settings. Please try again.', 5000);
+            return new Notice('Failed to save settings. Please try again.', 5000);
         }
     }
 
-    private async resetToSaved(): Promise<void> {
-        // Reset temporary settings to current saved settings
+    private async resetToSaved(): Promise<Notice | void> {
+        
         Object.assign(this.tempSettings, this.plugin.settings);
         this.setHasUnsavedChanges(false);
-        
-        new Notice('Settings reset to last saved values.', 3000);
-        
-        // Notify parent to refresh display
         this.onSettingsReset();
+        
+        return new Notice('Settings reset to last saved values.', 3000);
     }
 
-    // These methods should be overridden by the parent
+
     private onSettingsSaved(): void {
-        // This will be set by the parent class
+
     }
 
     private onSettingsReset(): void {
-        // This will be set by the parent class
+
     }
 
     setCallbacks(onSaved: () => void, onReset: () => void): void {
