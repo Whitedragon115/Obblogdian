@@ -25,7 +25,7 @@ function startHexoServer(hexoInstance) {
         return { status: 'error', message: 'Hexo server is already running via child process.' };
     }
 
-    hexoInstance.serverProcess = spawn('npx', ['hexo', 'server', '--port', process.env.PREVIEW_PORT || '4000'], {
+    hexoInstance.serverProcess = spawn('npx', ['hexo', 'server', '--port', process.env.PREVIEW_PORT || '4000', '--watch'], {
         cwd: hexoPath,
         detached: false,
         shell: true

@@ -28,5 +28,3 @@ or copy package dependencies json to the one outside
     "webdav": "^5.7.1"
   }
 ```
-
-# 3. rename this folde to hexo
