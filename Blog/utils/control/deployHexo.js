@@ -1,6 +1,6 @@
 
 const Hexo = require('hexo');
-const { hexoInstance } = require('../hexo.js');
+const { hexoInstance, stopHexoServer } = require('../hexo.js');
 
 async function deployHexoSite() {
     if (hexoInstance.running) await stopHexoServer();
