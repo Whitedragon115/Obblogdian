@@ -12,8 +12,8 @@ async function syncPosts() {
     const remoteFiles = await client.getDirectoryContents(process.env.WEBDAV_REMOTE_BASE, { deep: true });
 
     const localBasePath = path.join(process.cwd(), 'hexo', 'source', '_posts');
-    await fs.rm(localBasePath, { recursive: true, force: true });
-    await fs.mkdir(localBasePath, { recursive: true });
+    // await fs.rm(localBasePath, { recursive: true, force: true });
+    // await fs.mkdir(localBasePath, { recursive: true });
 
     for (const item of remoteFiles) {
         if(item.filename.includes('~temp')) continue;

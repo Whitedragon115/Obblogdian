@@ -12,7 +12,7 @@ async function initHexoServer(hexoInstance) {
     await hexoInstance.instance.call('clean', {});
     await hexoInstance.instance.call('generate', {});
     await hexoInstance.instance.exit();
-    startHexoServer(hexoInstance);
+    await startHexoServer(hexoInstance);
 
     hexoInstance.running = true;
     hexoInstance.instance = null;
@@ -21,37 +21,43 @@ async function initHexoServer(hexoInstance) {
 }
 
 function startHexoServer(hexoInstance) {
-    if (hexoInstance.serverProcess && hexoInstance.serverProcess.pid) {
-        return { status: 'error', message: 'Hexo server is already running via child process.' };
-    }
+    return new Promise((resolve, reject) => {
+        if (hexoInstance.serverProcess && hexoInstance.serverProcess.pid) {
+            return reject({ status: 'error', message: 'Hexo server is already running via child process.' });
+        }
 
-    hexoInstance.serverProcess = spawn('npx', ['hexo', 'server', '--port', process.env.PREVIEW_PORT || '4000', '--watch'], {
-        cwd: hexoPath,
-        detached: false,
-        shell: true
+        hexoInstance.serverProcess = spawn('npx', ['hexo', 'server', '--port', process.env.PREVIEW_PORT || '4000', '--watch'], {
+            cwd: hexoPath,
+            detached: false,
+            shell: true
+        });
+
+        hexoInstance.serverProcess.on('error', (error) => {
+            console.error('Failed to start Hexo server:', error);
+            reject({ status: 'error', message: 'Failed to start Hexo server.' });
+            return;
+        });
+
+        hexoInstance.serverProcess.stdout.on('data', (data) => {
+            const line = data.toString().trim();
+
+            console.log(line);
+            if (line.includes('Hexo is running at')) {
+                resolve({ status: 'success', message: 'Hexo server started successfully.' });
+                return;
+            }
+
+        });
+
+        hexoInstance.serverProcess.stderr.on('data', (data) => {
+            console.error(data.toString());
+        });
+
+        hexoInstance.serverProcess.on('close', (code) => {
+            console.log(`Hexo server process exited with code ${code}`);
+            hexoInstance.serverProcess = null;
+        });
     });
-
-    console.log(`Hexo server started with PID: ${hexoInstance.serverProcess.pid}`);
-
-    hexoInstance.serverProcess.stdout.on('data', (data) => {
-        console.log(data.toString());
-    });
-
-    hexoInstance.serverProcess.stderr.on('data', (data) => {
-        console.error(data.toString());
-    });
-
-    hexoInstance.serverProcess.on('close', (code) => {
-        console.log(`Hexo server process PID ${hexoInstance.serverProcess ? hexoInstance.serverProcess.pid : 'unknown'} exited with code ${code}`);
-        hexoInstance.serverProcess = null;
-    });
-
-    hexoInstance.serverProcess.on('error', (error) => {
-        console.error('Hexo server error:', error);
-        hexoInstance.serverProcess = null;
-    });
-
-    return { status: 'success', message: `Hexo server started via child process with PID: ${hexoInstance.serverProcess.pid}` };
 }
 
 module.exports = {
