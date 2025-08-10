@@ -1,0 +1,22 @@
+{
+  "name": "obblogdian",
+  "version": "1.0.0",
+  "description": "A comprehensive blog management system that integrates Obsidian with Hexo",
+  "main": "zip.js",
+  "scripts": {
+    "zip": "node zip.js"
+  },
+  "keywords": [
+    "obsidian",
+    "hexo",
+    "blog",
+    "markdown",
+    "static-site-generator"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "archiver": "^5.3.2"
+  },
+  "dependencies": {}
+}

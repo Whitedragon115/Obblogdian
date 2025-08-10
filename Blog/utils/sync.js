@@ -10,17 +10,16 @@ async function syncPosts() {
     });
 
     const remoteFiles = await client.getDirectoryContents(process.env.WEBDAV_REMOTE_BASE, { deep: true });
-
     const localBasePath = path.join(process.cwd(), 'hexo', 'source', '_posts');
-    // await fs.rm(localBasePath, { recursive: true, force: true });
-    // await fs.mkdir(localBasePath, { recursive: true });
+    await fs.mkdir(localBasePath, { recursive: true });
+
+    const remoteFilePaths = [];
 
     for (const item of remoteFiles) {
-        if(item.filename.includes('~temp')) continue;
+        if (item.filename.includes('~temp')) continue;
         if (item.type === 'file') {
-            const relativeFilePath = item.filename
-                .replace(process.env.WEBDAV_REMOTE_BASE, '')
-                .replace(/^\//, '');
+            const relativeFilePath = item.filename.replace(process.env.WEBDAV_REMOTE_BASE, '').replace(/^\//, '');
+            remoteFilePaths.push(item.basename);
 
             const localFilePath = path.join(localBasePath, relativeFilePath);
             const localDir = path.dirname(localFilePath);
@@ -31,7 +30,34 @@ async function syncPosts() {
         }
     }
 
+    const allLocalFiles = await getAllLocalFiles(localBasePath);
+    
+    for (const localFile of allLocalFiles) {
+        const localFileName = path.basename(localFile);
+        if (!remoteFilePaths.includes(localFileName)) {
+            const localFilePath = path.join(localFile);
+            await fs.unlink(localFilePath);
+        }
+    }
+
     resetAutoShutdownTimer();
+}
+
+async function getAllLocalFiles(basePath) {
+    const files = [];
+    async function walk(dir) {
+        const entries = await fs.readdir(dir, { withFileTypes: true });
+        for (const entry of entries) {
+            const fullPath = path.join(dir, entry.name);
+            if (entry.isDirectory()) {
+                await walk(fullPath);
+            } else if (entry.isFile()) {
+                files.push(fullPath);
+            }
+        }
+    }
+    await walk(basePath);
+    return files;
 }
 
 module.exports = {

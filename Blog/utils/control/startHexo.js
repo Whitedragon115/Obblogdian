@@ -34,8 +34,7 @@ function startHexoServer(hexoInstance) {
 
         hexoInstance.serverProcess.on('error', (error) => {
             console.error('Failed to start Hexo server:', error);
-            reject({ status: 'error', message: 'Failed to start Hexo server.' });
-            return;
+            return reject({ status: 'error', message: 'Failed to start Hexo server.' });
         });
 
         hexoInstance.serverProcess.stdout.on('data', (data) => {
@@ -43,8 +42,7 @@ function startHexoServer(hexoInstance) {
 
             console.log(line);
             if (line.includes('Hexo is running at')) {
-                resolve({ status: 'success', message: 'Hexo server started successfully.' });
-                return;
+                return resolve({ status: 'success', message: 'Hexo server started successfully.' });
             }
 
         });
