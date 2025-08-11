@@ -96,7 +96,7 @@ async function createZip() {
     } else if (choice === '2') {
         sourceDir = path.join(__dirname, 'Blog');
         outputName = `blog_${dateTime}.zip`;
-        excludePatterns = ['node_modules/**', 'hexo/**', 'rename to hexo/**', 'package-lock.json', '.git/**', '*.zip', '.env'];
+        excludePatterns = ['node_modules/**', 'hexo/**', 'rename to hexo/**', 'package-lock.json', '.git/**', '*.zip'];
         console.log('\n� Zipping Blog...');
     } else {
         console.log('❌ Invalid choice. Please run again and select 1 or 2.');
