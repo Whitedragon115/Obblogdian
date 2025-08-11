@@ -52,7 +52,6 @@ function startHexoServer(hexoInstance) {
         });
 
         hexoInstance.serverProcess.on('close', (code) => {
-            console.log(`Hexo server process exited with code ${code}`);
             hexoInstance.serverProcess = null;
         });
     });

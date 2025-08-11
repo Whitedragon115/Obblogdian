@@ -1,19 +1,21 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs').promises;
-
+const log = require('./utils/logging');
 require('dotenv').config();
+
 const API_PORT = process.env.API_PORT;
+let hexoUtils;
 
 const app = express();
-
 app.use(express.json());
 
-let hexoUtils;
-const getHexoUtils = () => {
+// Function
+
+function getHexoUtils() {
     if (!hexoUtils) { hexoUtils = require('./utils/hexo'); }
     return hexoUtils;
-};
+}
 
 function authenticate(req, res, next) {
     try {
@@ -33,25 +35,31 @@ function authenticate(req, res, next) {
 
 const loadApiRoutes = async () => {
     const apiPath = path.join(__dirname, 'api');
-    try {
-        const apiFiles = await fs.readdir(apiPath);
+    const apiFiles = await fs.readdir(apiPath);
 
-        for (const file of apiFiles) {
-            if (file.endsWith('.js')) {
-                const routeModule = require(path.join(apiPath, file));
-                if (typeof routeModule === 'function') {
-                    routeModule(app, authenticate, getHexoUtils);
-                    console.log(`Loaded API route: ${file}`);
-                }
+    for (const file of apiFiles) {
+        if (file.endsWith('.js')) {
+            const routeModule = require(path.join(apiPath, file));
+            if (typeof routeModule === 'function') {
+                routeModule(app, authenticate, getHexoUtils);
+                log.noteLog(`API route load: ${file}`);
             }
         }
-    } catch (error) {
-        console.warn('API folder not found or error loading routes:', error.message);
     }
+
 };
 
-loadApiRoutes();
+// Start server
 
-app.listen(API_PORT, () => {
-    console.log(`API server is running on port ${API_PORT}.`);
-});
+async function init() {
+    log.whitedoubleline()
+    log.textLog('Starting Obblogdian API server...');
+    log.grayline()
+    app.listen(API_PORT, () => { log.successLog(`API server is running on port ${API_PORT}.`); });
+    await loadApiRoutes();
+    log.whiteline()
+}
+
+// call
+
+init();

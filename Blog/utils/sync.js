@@ -1,5 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
+const log = require('../utils/logging.js');
 const { resetAutoShutdownTimer } = require('./hexo.js');
 
 async function syncPosts() {
@@ -20,6 +21,7 @@ async function syncPosts() {
         if (item.type === 'file') {
             const relativeFilePath = item.filename.replace(process.env.WEBDAV_REMOTE_BASE, '').replace(/^\//, '');
             remoteFilePaths.push(item.basename);
+            log.noteLog(`Syncing file: ${relativeFilePath}`);
 
             const localFilePath = path.join(localBasePath, relativeFilePath);
             const localDir = path.dirname(localFilePath);
@@ -37,6 +39,7 @@ async function syncPosts() {
         if (!remoteFilePaths.includes(localFileName)) {
             const localFilePath = path.join(localFile);
             await fs.unlink(localFilePath);
+            log.noteLog(`Deleted local file: ${localFileName}`);
         }
     }
 

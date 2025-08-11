@@ -1,6 +1,6 @@
 const path = require('path');
-
 const AUTO_SHUTDOWN_MS = process.env.AUTO_SHUTDOWN * 60 * 1000;
+const log = require('./logging.js')
 const hexoPath = path.resolve(__dirname, '../hexo/');
 
 const hexoInstance = {
@@ -45,7 +45,8 @@ function resetAutoShutdownTimer() {
     }
     if (hexoInstance.running) {
         hexoInstance.autoShutdownTimer = setTimeout(async () => {
-            console.log(`[AutoShutdown] Server is inactive for ${AUTO_SHUTDOWN_MS / 60000} minutes. Shutting down...`);
+            log.warningLog(`[AutoShutdown] Server is inactive for ${AUTO_SHUTDOWN_MS / 60000} minutes. Shutting down...`);
+            log.grayline();
             await stopHexoServer();
         }, AUTO_SHUTDOWN_MS);
     }
