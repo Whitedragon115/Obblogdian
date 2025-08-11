@@ -15,7 +15,6 @@ export function setHidden(): void {
     hiddenbox.forEach((element) => {
         element.addEventListener("click", () => {
             element.classList.toggle("hiddenblock");
-            console.log("Toggled hidden block visibility");
         });
     });
 
