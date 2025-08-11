@@ -11,7 +11,7 @@ export default class MyPlugin extends Plugin {
         await this.loadSettings();
 
         this.addSettingTab(new MyPluginSettingTab(this.app, this));
-        
+
         this.commandManager = new CommandManager(this, this.settings, () => this.saveSettings());
         this.commandManager.registerCommands();
 
@@ -26,11 +26,7 @@ export default class MyPlugin extends Plugin {
 
         setTimeout(() => {
             this.cleanTempFiles();
-        }, 2000);
-
-        this.registerDomEvent(window, 'beforeunload', () => {
-            this.cleanTempFiles();
-        });
+        }, 500);
     }
 
     async loadSettings() {
@@ -46,34 +42,18 @@ export default class MyPlugin extends Plugin {
     }
 
     private cleanTempFiles() {
-        try {
-            if (!this.settings.blogFolder) {
-                console.log("Blog folder not set, skipping temp file cleanup");
-                return;
-            }
+        if (!this.settings.blogFolder) return new Notice("Blog folder is not set. Please set it in the plugin settings.");
 
-            const tempFolderPath = `${this.settings.blogFolder}/~temp`;
-            console.log(`Cleaning temp files in: ${tempFolderPath}`);
-            
-            const tempFiles = this.app.vault.getFiles().filter(file => 
-                file.path.includes('/~temp/') || file.path.includes('\\~temp\\')
-            );
-            
-            if (tempFiles.length > 0) {
-                tempFiles.forEach(async (file) => {
-                    try {
-                        await this.app.vault.trash(file, true);
-                        console.log(`Cleaned temp file: ${file.path}`);
-                    } catch (error) {
-                        console.error(`Failed to clean temp file ${file.path}:`, error);
-                    }
-                });
-                
-                const notice = new Notice(`Cleaned ${tempFiles.length} temporary files`);
-                setTimeout(() => notice.hide(), 2000);
-            }
-        } catch (error) {
-            console.error("Error during temp file cleanup:", error);
-        }
+        const tempFiles = this.app.vault.getFiles().filter(file =>
+            file.path.includes('/~temp/') || file.path.includes('\\~temp\\')
+        );
+
+        if (!tempFiles.length) return;
+
+        tempFiles.forEach(async (file) => {
+            await this.app.vault.trash(file, true);
+        });
+
+        return new Notice(`Cleaned ${tempFiles.length} temporary files`, 3000);
     }
 }

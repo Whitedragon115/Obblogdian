@@ -10,11 +10,15 @@ export function debounce<T extends (...args: any[]) => void>(func: T, delay: num
 }
 
 export function setHidden(): void {
-    document.querySelectorAll('.hidden-box').forEach(function (element) {
-        element.addEventListener('click', function () {
-            element.classList.toggle('hiddenblock');
+    const hiddenbox = document.querySelectorAll<HTMLElement>(".hidden-box");
+    if (!hiddenbox) return;
+    hiddenbox.forEach((element) => {
+        element.addEventListener("click", () => {
+            element.classList.toggle("hiddenblock");
+            console.log("Toggled hidden block visibility");
         });
     });
+
 }
 
 export function setTabs(): void {
@@ -52,4 +56,11 @@ export function setTabs(): void {
             });
         });
     });
+}
+
+export function genrandomId(length: number = 8): string {
+    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) result += characters.charAt(Math.floor(Math.random() * characters.length));
+    return result;
 }

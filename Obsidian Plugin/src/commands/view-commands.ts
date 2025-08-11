@@ -8,7 +8,7 @@ let split_filename = "";
 export class ViewCommands extends BaseCommand {
     registerCommands() {
         this.plugin.addCommand({
-            id: "Preview-Blog",
+            id: "view-blog-obsidian",
             name: "Preview Blog",
             callback: async () => {
                 await this.viewBlogInObsidian();
@@ -18,6 +18,11 @@ export class ViewCommands extends BaseCommand {
 
     private async viewBlogInObsidian() {
 
+        setTimeout(() => {
+            setTabs();
+            setHidden();
+        }, 500);
+
         const openMdFile = this.plugin.app.workspace.getActiveFile();
 
         if (!openMdFile) return new Notice("No active file open");
@@ -25,18 +30,9 @@ export class ViewCommands extends BaseCommand {
         if (openMdFile.path.includes("~temp")) return new Notice("You can't use this command in the preview folder");
 
         await this.markdownRenderer.renderMarkdown(openMdFile.path, this.plugin.app.vault.adapter);
-        
-        setTabs();
-        setHidden();
-        
+        await this.plugin.app.vault.adapter.exists(openMdFile.path);
         const previewFilePath = path.join(this.settings.blogFolder, "~temp", `Preview ${openMdFile.name}`).replace(/\\/g, '/');
-        await this.handleEditorChange(true, false);
-        let file = this.plugin.app.vault.getAbstractFileByPath(previewFilePath) as TFile;
-        
-        if(!file){
-            this.viewBlogInObsidian();
-            return;
-        }
+        const file = this.plugin.app.vault.getAbstractFileByPath(previewFilePath) as TFile;
 
         if (!file) return new Notice("Preview file not found");
         if (file.basename === split_filename) return;
@@ -46,22 +42,26 @@ export class ViewCommands extends BaseCommand {
         const leaves = this.plugin.app.workspace.getLeavesOfType('markdown');
         const currentActiveLeaf = this.plugin.app.workspace.getMostRecentLeaf();
 
+        if (!currentActiveLeaf) return new Notice("No active leaf found");
         for (const leaf of leaves) if (leaf !== currentActiveLeaf) leaf.detach();
-        if (currentActiveLeaf) await currentActiveLeaf.openFile(openMdFile, { state: { mode: 'source' } });
+        await currentActiveLeaf.openFile(openMdFile, { state: { mode: 'source' } });
         const newLeaf = this.plugin.app.workspace.getLeaf('split', 'vertical');
         await newLeaf.openFile(file, { state: { mode: 'preview', active: false, focus: false } });
+        this.plugin.app.workspace.setActiveLeaf(currentActiveLeaf, { focus: true });
+
     }
 
     async handleEditorChange(autoUpdate: boolean, autoSync: boolean) {
         const openMdFile = this.plugin.app.workspace.getActiveFile();
-
         if (!openMdFile?.path.includes(this.settings.blogFolder)) return;
         if (openMdFile.path.includes("~temp")) return new Notice("You can't use this command in the preview folder");
         if (autoUpdate) {
             if (!openMdFile) return new Notice("No active file open");
             await this.markdownRenderer.renderMarkdown(openMdFile.path, this.plugin.app.vault.adapter);
-            setTabs();
-            setHidden();
+            setTimeout(() => {
+                setTabs();
+                setHidden();
+            }, 500);
         }
 
         if (autoSync) await this.apiClient.quickSync();

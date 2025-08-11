@@ -17,30 +17,28 @@ export class MarkdownRenderer {
     }
 
     async renderMarkdown(filePath: string, vaultAdapter: any) {
-        try {
-            let fileContent = await vaultAdapter.read(filePath);
-            fileContent = this.renderMd(fileContent);
-            fileContent = this.markdownIt.render(fileContent);
-            fileContent = this.codeblockFix(fileContent);
+        if (!this.settings.blogFolder) new Notice("Blog folder is not set in settings.\nconsider reload your obsidian.");
 
-            const fileName = path.basename(filePath, path.extname(filePath));
-            const previewFilePath = path.join(
-                vaultAdapter.getBasePath(),
-                this.settings.blogFolder,
-                "~temp",
-                `Preview ${fileName}.md`
-            );
+        let fileContent = await vaultAdapter.read(filePath);
+        fileContent = this.renderMd(fileContent);
+        fileContent = this.markdownIt.render(fileContent);
+        fileContent = this.codeblockFix(fileContent);
 
-            if (!this.settings.blogFolder) return new Notice("Blog folder is not set in settings.\nconsider reload your obsidian.");
+        const fileName = path.basename(filePath, path.extname(filePath));
+        const previewFilePath = path.join(
+            vaultAdapter.getBasePath(),
+            this.settings.blogFolder,
+            "~temp",
+            `Preview ${fileName}.md`
+        );
 
-            const parentDir = path.dirname(previewFilePath);
-            if (!fs.existsSync(parentDir)) {
-                fs.mkdirSync(parentDir, { recursive: true });
-            }
-            fs.writeFileSync(previewFilePath, fileContent, "utf-8");
-        } catch (error) {
-            console.error("Error processing Markdown file:", error);
-        }
+        const parentDir = path.dirname(previewFilePath);
+        if (!fs.existsSync(parentDir)) await fs.promises.mkdir(parentDir, { recursive: true });
+
+        await fs.promises.writeFile(previewFilePath, fileContent, "utf-8");
+        await fs.promises.access(previewFilePath, fs.constants.F_OK);
+
+        console.log("Markdown rendering completed successfully");
     }
 
     private renderMd(content: string): string {
@@ -82,6 +80,4 @@ export class MarkdownRenderer {
             return `<pre><code${lang || ""}>${replaced}</code></pre>`;
         });
     }
-
-
 }

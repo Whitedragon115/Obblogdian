@@ -30,7 +30,7 @@ export class RenderCommands extends BaseCommand {
 
         this.plugin.addCommand({
             name: "clean-temp-files",
-            id: "clean-temp-files",
+            id: "Clean Temp Files",
             callback: async () => {
                 await this.cleanTempFiles();
             }
