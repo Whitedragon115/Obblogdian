@@ -10,6 +10,12 @@ export class ViewCommands extends BaseCommand {
         this.plugin.addCommand({
             id: "view-blog-obsidian",
             name: "Preview Blog",
+            hotkeys: [
+                {
+                    modifiers: ["Ctrl"],
+                    key: "enter"
+                }
+            ],
             callback: async () => {
                 await this.viewBlogInObsidian();
             }
