@@ -15,24 +15,33 @@ So as you can see there are alot of commands, and here is what each command do
 
 ![alt text](image.png)
 
-- Deploy Blog
-<div style="display: flex; gap: 20px;">
-<div>
+Easiest, most reliable way in a GitHub README: use an HTML **table** (GitHub allows raw HTML in Markdown).
 
-**Left Column**  
-Item A  
-Item B  
+Copy–paste this:
 
-</div>
-<div>
+<table>
+  <tr>
+    <td width="50%" valign="top">
 
-**Right Column**  
-Some text or an image.
-qweqwe
-qwe
-qwe
-qwe
-qwe
+### Left column
+- Put normal Markdown here
+- **Bold**, _italics_, lists, images, etc.
+  
+```bash
+# code blocks work too
+echo "hello"
+````
 
-</div>
-</div>
+</td>
+<td width="50%" valign="top">
+
+### Right column
+
+Text, images, badges…
+
+![img](https://via.placeholder.com/300x120)
+
+</td>
+
+  </tr>
+</table>
