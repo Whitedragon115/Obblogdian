@@ -23,7 +23,6 @@ So as you can see there are alot of commands, and here is what each command do
 - **Create Metadata**
 - **Start Blog Server**
 - **Stop Blog Server**
-<br>
 - **Sync Blog**
 - **Auto Render Update**
 - **Render All**
@@ -34,14 +33,23 @@ So as you can see there are alot of commands, and here is what each command do
 ### Right column
 
 Deploy your blog to internet by running `hexo deploy`
+
 Open side preview
+
 Clean all temp files generate by side preview
+
 Create metadata in blog head
+
 Start online preview by running `hexo clean -> generate -> server`
+
 Stop online preview
+
 Sync data in obsidian to server
+
 Auto update and render side preivew
+
 Render all markdown
+
 Auto update item to server
 
 </td></tr></table>
