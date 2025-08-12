@@ -13,35 +13,35 @@ Hi, Im whitedraogn, this is a small side-project I develope for a better way to 
 
 So as you can see there are alot of commands, and here is what each command do
 
-![alt text](image.png)
+<table><tr><td width="50%" valign="top">
 
-Easiest, most reliable way in a GitHub README: use an HTML **table** (GitHub allows raw HTML in Markdown).
+### Command
 
-Copy–paste this:
+- **Deploy Blog**
+- **Preview Blog**
+- **Clean Temp**
+- **Create Metadata**
+- **Start Blog Server**
+- **Stop Blog Server**
+<br>
+- **Sync Blog**
+- **Auto Render Update**
+- **Render All**
+- **Auto Sync Update**
 
-<table>
-  <tr>
-    <td width="50%" valign="top">
-
-### Left column
-- Put normal Markdown here
-- **Bold**, _italics_, lists, images, etc.
-  
-```bash
-# code blocks work too
-echo "hello"
-````
-
-</td>
-<td width="50%" valign="top">
+</td><td width="50%" valign="top">
 
 ### Right column
 
-Text, images, badges…
+Deploy your blog to internet by running `hexo deploy`
+Open side preview
+Clean all temp files generate by side preview
+Create metadata in blog head
+Start online preview by running `hexo clean -> generate -> server`
+Stop online preview
+Sync data in obsidian to server
+Auto update and render side preivew
+Render all markdown
+Auto update item to server
 
-![img](https://via.placeholder.com/300x120)
-
-</td>
-
-  </tr>
-</table>
+</td></tr></table>
