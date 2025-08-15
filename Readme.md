@@ -1,5 +1,7 @@
 # Obblogdian
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Hi, I'm WhiteDragon. This is a small side project I built to make it easier to write your blog in Obsidian instead of VS Code.
 
 ## How it works
@@ -48,3 +50,7 @@ Here's what each command does:
 | POST   | `https://<server.domain>/api/server/start` | Start Hexo server              |
 | POST   | `https://<server.domain>/api/server/stop`  | Stop Hexo server               |
 | POST   | `https://<server.domain>/api/sync`         | Sync Markdown data to the server |
+
+# My information
+> Discord: darkingfury
+> mail: darklightningfury@gmail.com
