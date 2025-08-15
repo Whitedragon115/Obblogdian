@@ -1,0 +1,581 @@
+:root {
+  --background-color: #202124;
+  --background-color-transparent: rgba(32, 33, 36, 0.4);
+  --background-color-transparent-15: rgba(32, 33, 36, 0.15);
+  --background-color-transparent-40: rgba(32, 33, 36, 0.4);
+  --background-color-transparent-80: rgba(32, 33, 36, 0.8);
+  --second-background-color: #242529;
+  --third-background-color: #292b2f;
+  --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+  --primary-color: #2775b8;
+  --first-text-color: #d2d2d7;
+  --second-text-color: #cbcbd1;
+  --third-text-color: #9595a2;
+  --fourth-text-color: #242429;
+  --default-text-color: #bebec6;
+  --invert-text-color: #373d3f;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --selection-color: #2c84d0;
+  --shadow-color-1: rgba(255, 255, 255, 0.08);
+  --shadow-color-2: rgba(255, 255, 255, 0.05);
+  --shadow-hover-color: rgba(69, 69, 69, 0.28);
+  --scrollbar-color: #898989;
+  --scrollbar-color-hover: #a1a1a1;
+  --scroll-bar-bg-color: #2a2c30;
+  --link-color: #c5c5cc;
+  --copyright-info-color: #a30029;
+  --avatar-background-color: #005cb8;
+  --pjax-progress-bar-color: linear-gradient(45deg, #ea404a, #ea722f, #e9a71f, #67e559, #18ecec, #1b85f1, #ee1dee);
+  --archive-timeline-last-child-color: linear-gradient(to bottom, #323232 60%, rgba(255, 255, 255, 0) 100%) 1 100%;
+  --note-blue-title-bg: #1e3e46;
+  --note-red-title-bg: #4e1e1e;
+  --note-cyan-title-bg: #1e4e4e;
+  --note-green-title-bg: #1e4e1e;
+  --note-yellow-title-bg: #4e4e1e;
+  --note-gray-title-bg: #4e4e4e;
+  --note-type-title-bg: #4e3a1e;
+  --note-black-title-bg: #1e1e1e;
+  --note-purple-title-bg: #4e1e4e;
+  --home-banner-text-color: #7db5e3;
+  --home-banner-icons-container-border-color: rgba(197, 197, 197, 0.35);
+  --home-banner-icons-container-background-color: rgba(197, 197, 197, 0.3);
+  --redefine-box-shadow: var(--shadow-color-2) 0px 6px 24px 0px, var(--shadow-color-1) 0px 0px 0px 1px;
+  --redefine-box-shadow-hover: var(--shadow-color-2) 0px 6px 24px 0px, var(--shadow-color-1) 0px 0px 0px 1px, var(--shadow-color-1) 0px 0px 0px 1px inset;
+  --redefine-box-shadow-flat: var(--shadow-color-2) 0px 1px 4px 0px, var(--shadow-color-1) 0px 0px 0px 1px;
+  --redefine-box-shadow-flat-hover: var(--shadow-color-2) 0px 1px 4px 0px, var(--shadow-color-1) 0px 0px 0px 1px, var(--shadow-color-1) 0px 0px 0px 1px inset;
+  --mermaid-theme: '';
+  --admonition-info-color: rgba(255, 255, 255, 0.034);
+}
+
+.hidden-text-container {
+  display: inline-block;
+  position: relative;
+}
+
+.hidden-text {
+  display: inline-block;
+  visibility: visible;
+}
+
+.hidden-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #333;
+  /* 方塊的顏色 */
+  border-radius: 3px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  opacity: 1;
+}
+
+.hidden-box:hover {
+  opacity: 0.7;
+  /* 懸停時透明度變為 0.3 */
+}
+
+.hidden-box.hiddenblock {
+  opacity: 0.3;
+  visibility: visible;
+}
+
+.comment {
+  color: #a6a6a6;
+  font-size: 0.8em;
+  margin-left: 5px;
+  font-style: italic;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.admonition {
+  margin: 1.5625em 0;
+  padding: .6rem;
+  overflow: hidden;
+  font-size: 1rem;
+  /* 字體大小 */
+  page-break-inside: avoid;
+  border-left: 0.3rem solid #a5a5a5;
+  border-radius: .3rem;
+  box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, .05), 0 0 0.05rem rgba(0, 0, 0, .1);
+  background-color: var(--admonition-info-color);
+}
+
+p.admonition-title {
+  position: relative;
+  margin: -.6rem -.6rem .8em -.6rem !important;
+  padding: .4rem .6rem .4rem 2.5rem;
+  font-weight: 700;
+  background-color: rgba(123, 123, 123, 0.213);
+}
+
+.admonition-title::before {
+  position: absolute;
+  top: .9rem;
+  left: 1rem;
+  width: 12px;
+  height: 12px;
+  background-color: #a7a7a7;
+  border-radius: 50%;
+  content: ' ';
+}
+
+.info>.admonition-title {
+  background-color: rgba(0, 184, 212, .1);
+}
+
+.warning>.admonition-title,
+.warn>.admonition-title {
+  background-color: rgba(255, 145, 0, .1);
+}
+
+.danger>.admonition-title,
+.error>.admonition-title {
+  background-color: rgba(255, 82, 82, .1);
+}
+
+.notes>.admonition-title {
+  background-color: rgba(122, 122, 122, 0.142);
+}
+
+.success>.admonition-title {
+  background-color: rgba(124, 255, 129, .1);
+}
+
+.admonition.info {
+  border-color: #00b8d4;
+}
+
+.admonition.warning,
+.admonition.warn {
+  border-color: #ff9100;
+}
+
+.admonition.error,
+.admonition.danger {
+  border-color: #ff5252;
+}
+
+.admonition.notes {
+  border-color: #575757;
+}
+
+.admonition.success {
+  border-color: #7cff81;
+}
+
+.info>.admonition-title::before {
+  background-color: #00b8d4;
+  border-radius: 50%;
+}
+
+.warning>.admonition-title::before,
+.warn>.admonition-title::before {
+  background-color: #ff9100;
+  border-radius: 50%;
+}
+
+.failure>.admonition-title::before,
+.danger>.admonition-title::before {
+  background-color: #ff5252;
+  border-radius: 50%;
+}
+
+.notes>.admonition-title::before {
+  background-color: #8e8e8e54;
+  border-radius: 50%;
+}
+
+.success>.admonition-title::before {
+  background-color: #7cff81;
+  border-radius: 50%;
+}
+
+.admonition>:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* tablefix */
+
+.admonition>table,
+.tab-pane>table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin: 1rem;
+  width: 95%;
+  overflow: auto;
+  margin-bottom: 1.2rem;
+  box-shadow: var(--redefine-box-shadow-flat);
+  border-radius: 10px;
+}
+
+.admonition>table thead th {
+  border-bottom: 1px solid var(--shadow-color-1);
+  background-color: var(--third-background-color) !important;
+}
+
+.admonition>table thead th:first-child {
+  border-top-left-radius: 10px;
+}
+
+.admonition>table thead th:last-child {
+  border-top-right-radius: 10px;
+}
+
+.admonition>table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+.admonition>table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+.admonition>table td,
+.admonition>table th {
+  padding: 8px 16px;
+  border-left: 1px solid var(--shadow-color-1);
+}
+
+.admonition>table td:first-child,
+.admonition>table th:first-child {
+  border-left: none;
+}
+
+.admonition>table tbody tr {
+  background-color: var(--background-color);
+}
+
+.admonition>table tbody tr:nth-child(2n) {
+  background-color: var(--second-background-color);
+}
+
+.custom-markdown {
+  color: #3498db;
+  font-weight: bold;
+}
+
+div.tabs {
+  display: block;
+  position: relative;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  background: var(--color-card)
+}
+
+div.tabs .highlight,
+div.tabs details,
+div.tabs div.note,
+div.tabs ol,
+div.tabs p,
+div.tabs ul{
+  margin-top: 16px;
+  margin-bottom: 16px;
+  list-style: none;
+}
+
+div.tabs ul.nav-tabs {
+  display: table;
+  position: relative;
+  overflow-x: auto;
+  margin: 0 !important;
+  padding: 4px;
+  background: var(--third-background-color);
+  border-radius: 14px;
+  line-height: 1.5;
+  text-align: center;
+  left: 50%;
+  transform: translateX(-50%)
+}
+
+div.tabs ul.nav-tabs li.tab {
+  list-style-type: none;
+  display: inline-block;
+  float: none;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 10px
+}
+
+div.tabs ul.nav-tabs li.tab:first-child {
+  margin-left: 0
+}
+
+div.tabs ul.nav-tabs li.tab:last-child {
+  padding-right: 0
+}
+
+div.tabs ul.nav-tabs li.tab a {
+  display: block;
+  cursor: pointer;
+  border-radius: 9px;
+  padding: 4px 8px;
+  text-align: center;
+  font-size: 16px;
+  line-height: inherit;
+  font-weight: 700;
+  color: var(--default-text-color);
+  border: none;
+  text-decoration: none
+}
+
+div.tabs ul.nav-tabs li.tab a:hover {
+  color: var(--primary-color)
+}
+
+div.tabs ul.nav-tabs li.tab a i {
+  pointer-events: none
+}
+
+div.tabs ul.nav-tabs li.tab.active a {
+  cursor: default;
+  color: var(--primary-color);
+  background-color: var(--second-background-color);
+  box-shadow: var(--redefine-box-shadow-flat);
+  transition: transform .1s ease
+}
+
+div.tabs .tab-content {
+  background-color: var(--second-background-color);
+  border-radius: 14px;
+  box-shadow: var(--redefine-box-shadow-flat);
+  margin-top: 1rem
+}
+
+div.tabs .tab-content .highlight-container[data-rel] {
+  border-radius: 9px
+}
+
+div.tabs .tab-content .highlight {
+  border-radius: 0 0 9px 9px
+}
+
+div.tabs .tab-content blockquote {
+  border-radius: 0 9px 9px 0
+}
+
+div.tabs .tab-content .tab-pane {
+  padding: 20px
+}
+
+div.tabs .tab-content .tab-pane:not(.active) {
+  display: none
+}
+
+div.tabs .tab-content .tab-pane.active {
+  display: block
+}
+
+div.tabs .tab-content .tab-pane :last-child {
+  margin-bottom: 0
+}
+
+div.tabs .tab-content .tab-pane .highlight:first-child,
+div.tabs .tab-content .tab-pane .note:first-child,
+div.tabs .tab-content .tab-pane .tabs:first-child,
+div.tabs .tab-content .tab-pane ol:first-child,
+div.tabs .tab-content .tab-pane ul:first-child,
+div.tabs .tab-content .tab-pane>p:first-child {
+  margin-top: 0
+}
+
+div.tabs .tab-content .tab-pane .highlight:last-child,
+div.tabs .tab-content .tab-pane .note:last-child,
+div.tabs .tab-content .tab-pane .tabs:last-child,
+div.tabs .tab-content .tab-pane ol:last-child,
+div.tabs .tab-content .tab-pane ul:last-child,
+div.tabs .tab-content .tab-pane>p:last-child {
+  margin-bottom: 0
+}
+
+.tab .list-bullet::after {
+  visibility: hidden;
+}
+
+details {
+  margin-bottom: 1rem
+}
+
+details>summary {
+  list-style: none
+}
+
+details>summary::-webkit-details-marker {
+  display: none
+}
+
+details>summary::marker {
+  display: none
+}
+
+details[open]>summary {
+  border-radius: 9px 9px 0 0;
+  border-bottom: 1px solid transparent
+}
+
+details[open]>summary i.fa-chevron-right {
+  transform: rotate(90deg);
+  transition: transform .2s ease
+}
+
+summary {
+  border: solid 1px var(--shadow-color-1);
+  border-radius: 9px;
+  padding: 15px;
+  font-size: 1.2rem;
+  background-color: var(--background-color);
+  line-height: 2rem;
+  cursor: pointer
+}
+
+summary:marker {
+  margin-right: 100px
+}
+
+summary i.fa-chevron-right {
+  transform: rotate(0);
+  transition: transform .2s ease;
+  margin-right: 1rem;
+  float: right;
+  padding-top: 6px
+}
+
+summary:hover {
+  background-color: rgba(166, 166, 166, .188)
+}
+
+summary p {
+  display: inline-block;
+  margin: 0;
+  float: left
+}
+
+details div.content {
+  border-radius: 0 0 9px 9px;
+  border: solid 1px var(--shadow-color-1);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: var(--second-background-color);
+  animation: fade .2s ease forwards
+}
+
+details div.content>:first-child {
+  margin-top: 0
+}
+
+details.yellow summary:hover {
+  background-color: rgba(255, 238, 48, .188)
+}
+
+details.yellow[open]>summary {
+  background-color: rgba(255, 238, 48, .188)
+}
+
+details.blue summary:hover {
+  background-color: rgba(0, 166, 255, .188)
+}
+
+details.blue[open]>summary {
+  background-color: rgba(0, 166, 255, .188)
+}
+
+details.green summary:hover {
+  background-color: rgba(0, 255, 166, .188)
+}
+
+details.green[open]>summary {
+  background-color: rgba(0, 255, 166, .188)
+}
+
+details.red summary:hover {
+  background-color: rgba(255, 0, 0, .188)
+}
+
+details.red[open]>summary {
+  background-color: rgba(255, 0, 0, .188)
+}
+
+details.orange summary:hover {
+  background-color: rgba(255, 152, 48, .188)
+}
+
+details.orange[open]>summary {
+  background-color: rgba(255, 152, 48, .188)
+}
+
+details.pink summary:hover {
+  background-color: rgba(255, 0, 255, .188)
+}
+
+details.pink[open]>summary {
+  background-color: rgba(255, 0, 255, .188)
+}
+
+details.cyan summary:hover {
+  background-color: rgba(0, 255, 255, .188)
+}
+
+details.cyan[open]>summary {
+  background-color: rgba(0, 255, 255, .188)
+}
+
+details.white summary:hover {
+  background-color: rgba(255, 255, 255, .188)
+}
+
+details.white[open]>summary {
+  background-color: rgba(255, 255, 255, .188)
+}
+
+details.black summary:hover {
+  background-color: rgba(0, 0, 0, .188)
+}
+
+details.black[open]>summary {
+  background-color: rgba(0, 0, 0, .188)
+}
+
+details.gray summary:hover {
+  background-color: rgba(166, 166, 166, .188)
+}
+
+details.gray[open]>summary {
+  background-color: rgba(166, 166, 166, .188)
+}
+
+details.purple summary:hover {
+  background-color: rgba(167, 99, 255, .188)
+}
+
+details.purple[open]>summary {
+  background-color: rgba(167, 99, 255, .188)
+}
+
+details summary:hover {
+  background-color: rgba(166, 166, 166, .188)
+}
+
+details[open]>summary {
+  background-color: rgba(166, 166, 166, .188)
+}
+
+.metadata-item {
+  display: flex;
+  margin-bottom: 0.5em;
+}
+
+.metadata-key {
+  min-width: 100px;
+  padding: 4px 8px;
+  background: #586371;
+  color: rgb(160, 193, 225);
+  border-radius: 50px;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.metadata-value {
+  padding: 4px;
+  color: #ddebf9;
+}

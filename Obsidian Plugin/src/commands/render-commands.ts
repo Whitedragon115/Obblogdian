@@ -14,7 +14,7 @@ export class RenderCommands extends BaseCommand {
 
         this.plugin.addCommand({
             id: "render-all-blog",
-            name: "Render All Blog Markdown",
+            name: "Render All",
             callback: async () => {
                 await this.renderAllBlog();
             }
@@ -22,7 +22,7 @@ export class RenderCommands extends BaseCommand {
 
         this.plugin.addCommand({
             id: "render-auto-update",
-            name: "Auto Render Markdown",
+            name: "Auto Render Update",
             callback: async () => {
                 await this.toggleAutoUpdate();
             }
@@ -30,7 +30,7 @@ export class RenderCommands extends BaseCommand {
 
         this.plugin.addCommand({
             name: "clean-temp-files",
-            id: "Clean Temp Files",
+            id: "Clean Temp",
             callback: async () => {
                 await this.cleanTempFiles();
             }

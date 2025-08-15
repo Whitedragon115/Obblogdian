@@ -5,7 +5,7 @@ export class SyncCommands extends BaseCommand {
     registerCommands() {
         this.plugin.addCommand({
             id: "sync-blog",
-            name: "Sync blog to server",
+            name: "Sync Blog",
             callback: async () => {
                 await this.syncBlog();
             }
@@ -13,7 +13,7 @@ export class SyncCommands extends BaseCommand {
 
         this.plugin.addCommand({
             id: "toogle-auto-sync",
-            name: "Auto sync blog to Server",
+            name: "Auto Sync Update",
             callback: async () => {
                 await this.toggleAutoSync();
             }
