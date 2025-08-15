@@ -53,4 +53,5 @@ Here's what each command does:
 
 # My information
 > Discord: darkingfury
+
 > mail: darklightningfury@gmail.com
